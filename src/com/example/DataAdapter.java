@@ -120,14 +120,34 @@ public class DataAdapter {
         }
     }
 
+    public int getNextOrderID() throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("select seq from sqlite_sequence where name = ?");
+        statement.setString(1, "OrderID");
+        ResultSet resultSet = statement.executeQuery();
+        int orderID = resultSet.getInt("seq");
+
+        statement = connection.prepareStatement("update sqlite_sequence set seq = ? where name = ?");
+        statement.setString(2, "OrderID");
+        statement.setInt(1, orderID+1);
+        statement.execute();
+        return orderID;
+    }
+
     public boolean saveOrder(Order order) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO Orders VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO Orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setInt(1, order.getOrderID());
             statement.setInt(3, order.getBuyerID());
             statement.setString(2, order.getDate());
             statement.setDouble(4, order.getTotalCost());
             statement.setDouble(5, order.getTotalTax());
+
+            statement.setString(6, order.getShippingAddress());
+            statement.setString(7, order.getBillingAddress());
+            statement.setString(8, order.getCCNumber());
+            statement.setInt(9, order.getCVV());
+            statement.setInt(10, order.getValidThruMM());
+            statement.setInt(11, order.getValidThruYYYY());
 
             statement.execute();    // commit to the database;
             statement.close();
@@ -150,6 +170,13 @@ public class DataAdapter {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void saveReceipt(String receipt, int orderID) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Receipts VALUES (?, ?)");
+        statement.setInt(1, orderID);
+        statement.setString(2, receipt);
+        statement.execute();
     }
 
     public User loadUser(String username, String password) {

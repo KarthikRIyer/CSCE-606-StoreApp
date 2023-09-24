@@ -11,6 +11,12 @@ public class Order {
     private double totalCost;
     private double totalTax;
     private String date;
+    private String shippingAddress;
+    private String billingAddress;
+    private String CCNumber;
+    private int CVV;
+    private int validThruMM;
+    private int validThruYYYY;
 
     private List<OrderLine> lines;
 
@@ -68,5 +74,53 @@ public class Order {
 
     public List<OrderLine> getLines() {
         return lines;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public String getBillingAddress() {
+        return billingAddress;
+    }
+
+    public String getCCNumber() {
+        return CCNumber;
+    }
+
+    public int getCVV() {
+        return CVV;
+    }
+
+    public int getValidThruMM() {
+        return validThruMM;
+    }
+
+    public int getValidThruYYYY() {
+        return validThruYYYY;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public void setBillingAddress(String billingAddress) {
+        this.billingAddress = billingAddress;
+    }
+
+    public void setCCNumber(String CCNumber) {
+        this.CCNumber = CCNumber;
+    }
+
+    public void setCVV(int CVV) {
+        this.CVV = CVV;
+    }
+
+    public void setValidThruMM(int validThruMM) {
+        this.validThruMM = validThruMM;
+    }
+
+    public void setValidThruYYYY(int validThruYYYY) {
+        this.validThruYYYY = validThruYYYY;
     }
 }
